@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "tracker-healthy-habits-cw7"
+version = "0.1.0"
+description = ""
+authors = ["mikhapol_linux <mikhapol@bk.ru>"]
+readme = "README.md"
+packages = [{include = "tracker_healthy_habits_cw7"}]
+
+[tool.poetry.dependencies]
+python = "^3.11.4"
+django = "^4.2.5"
+psycopg2-binary = "^2.9.7"
+python-dotenv = "^1.0.0"
+pillow = "^10.0.0"
+djangorestframework = "^3.14.0"
+django-filter = "^23.2"
+djangorestframework-simplejwt = "^5.3.0"
+coverage = "^7.3.1"
+drf-yasg = "^1.21.7"
+django-cors-headers = "^4.2.0"
+requests = "^2.31.0"
+redis = "^5.0.0"
+celery = "^5.3.4"
+django-celery-beat = "^2.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
