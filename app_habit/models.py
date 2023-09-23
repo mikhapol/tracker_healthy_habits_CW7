@@ -6,16 +6,29 @@ from users.models import NULLABLE
 
 class Habit(models.Model):
     """Поля модели привычек"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
-    place = models.CharField(max_length=150, verbose_name='Место')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             verbose_name='Пользователь')
+    place = models.CharField(max_length=150,
+                             verbose_name='Место')
     time = models.TimeField(verbose_name='Время')
-    action = models.CharField(max_length=50, verbose_name='Действие/Привычка')
-    is_pleasant = models.BooleanField(default=False, verbose_name='Признак приятной привычки')
-    related_habit = models.ForeignKey('Habit', on_delete=models.SET_NULL, verbose_name='Связанная привычка', **NULLABLE)
-    frequency = models.SmallIntegerField(default=1, verbose_name='Периодичность')
-    award = models.CharField(max_length=50, verbose_name='Вознаграждение', **NULLABLE)
-    time_complete = models.SmallIntegerField(verbose_name='Время на выполнение')
-    is_published = models.BooleanField(default=False, verbose_name='Признак публичности')
+    action = models.CharField(max_length=50,
+                              verbose_name='Действие/Привычка')
+    is_pleasant = models.BooleanField(default=False,
+                                      verbose_name='Признак приятной привычки')
+    related_habit = models.ForeignKey('Habit',
+                                      on_delete=models.SET_NULL,
+                                      verbose_name='Связанная привычка',
+                                      **NULLABLE)
+    frequency = models.SmallIntegerField(default=1,
+                                         verbose_name='Периодичность')
+    award = models.CharField(max_length=50,
+                             verbose_name='Вознаграждение',
+                             **NULLABLE)
+    time_complete = models.SmallIntegerField(
+        verbose_name='Время на выполнение')
+    is_public = models.BooleanField(default=False,
+                                    verbose_name='Признак публичности')
 
     def __str__(self):
         return f'{self.action}'

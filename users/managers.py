@@ -6,7 +6,8 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password):
 
         if not email:
-            raise TypeError('У пользователей должен быть адрес электронной почты.')
+            raise TypeError(
+                'У пользователей должен быть адрес электронной почты.')
 
         if not password:
             raise TypeError('У пользователей должен быть пароль.')
