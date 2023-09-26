@@ -16,4 +16,3 @@ class HabitSerializers(serializers.ModelSerializer):
             HabitPleasantValidator(),
             HabitFrequencyValidator(),
         ]
-

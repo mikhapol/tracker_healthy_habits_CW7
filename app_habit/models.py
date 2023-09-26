@@ -8,10 +8,11 @@ class Habit(models.Model):
     """Поля модели привычек"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
-                             verbose_name='Пользователь')
+                             verbose_name='Пользователь',
+                             **NULLABLE)
     place = models.CharField(max_length=150,
                              verbose_name='Место')
-    time = models.TimeField(verbose_name='Время')
+    time = models.DateTimeField(verbose_name='Время выполнения привычки')
     action = models.CharField(max_length=50,
                               verbose_name='Действие/Привычка')
     is_pleasant = models.BooleanField(default=False,
