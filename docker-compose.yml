@@ -1,0 +1,57 @@
+version: '3.10' # Версия указывает на версию синтаксиса
+
+services: # Образы контейнера
+  redis: # Подключение к redis
+    image: redis # Название образа
+    ports: # Порт для redis
+      - '6380:6379'
+
+
+  db: # Подключение к базе данных
+    image: postgres # Название образа базы данных
+    env_file: # Ссылка на закрытый источник к данным для подключения БД
+      - .env
+    environment: # Ссылка на источник к данным для подключения БД
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports: # Порт для БД
+      - '5433:5432'
+#    healthcheck: # Проверка подключения БД
+#      test: [ "CMD-SHELL", "pg-isready -d postgres -U postgres" ]
+#      interval: 10s # Интервал проверки
+#      timeout: 5s # Пауза между проверками
+#      retries: 5 # Количество попыток
+
+
+  app: # Само приложение
+    build: . # Указывает на текущую директорию, где находится
+    tty: true # Даёт возможность использовать команды терминала
+    command: > # Команда для терминала
+      bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes: # Монтирует текущую директорию на контейнер, позволяя вам вносить изменения в код приложения без пересборки образа.
+      - .:/app
+    ports:
+      - '8001:8000'
+    depends_on: # Зависимость не запускать сборку, пока не готова БД.
+      - db
+#      db:
+#        condition: service_healthy
+
+  celery: # Запуск celery
+    build: . # От куда
+    tty: true
+    command: celery -A config worker -l INFO
+    depends_on:
+      - redis
+      - app
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    depends_on:
+      - redis
+      - app
+volumes:
+  pg_data:

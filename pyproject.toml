@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "tracker_healthy_habits_cw7"}]
 
 [tool.poetry.dependencies]
-python = "^3.11.4"
+python = "^3.10.13"
 django = "^4.2.5"
 psycopg2-binary = "^2.9.7"
 python-dotenv = "^1.0.0"
