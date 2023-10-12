@@ -1,4 +1,4 @@
-version: '3.10' # Версия указывает на версию синтаксиса
+version: '3.11' # Версия указывает на версию синтаксиса
 
 services: # Образы контейнера
   redis: # Подключение к redis
@@ -17,11 +17,11 @@ services: # Образы контейнера
       - pg_data:/var/lib/postgresql/data/pgdata
     ports: # Порт для БД
       - '5433:5432'
-#    healthcheck: # Проверка подключения БД
-#      test: [ "CMD-SHELL", "pg-isready -d postgres -U postgres" ]
-#      interval: 10s # Интервал проверки
-#      timeout: 5s # Пауза между проверками
-#      retries: 5 # Количество попыток
+    healthcheck: # Проверка подключения БД
+      test: [ "CMD-SHELL", "pg_isready -d postgres -U postgres" ]
+      interval: 10s # Интервал проверки
+      timeout: 5s # Пауза между проверками
+      retries: 5 # Количество попыток
 
 
   app: # Само приложение
@@ -34,9 +34,9 @@ services: # Образы контейнера
     ports:
       - '8001:8000'
     depends_on: # Зависимость не запускать сборку, пока не готова БД.
-      - db
-#      db:
-#        condition: service_healthy
+#      - db
+      db:
+        condition: service_healthy
 
   celery: # Запуск celery
     build: . # От куда
